@@ -1,0 +1,21 @@
+{
+    "name": "Feature Toggles",
+    "version": "1.0",
+    "description": "Toggle application feature toggles",
+    "manifest_version": 2,
+    "permissions": ["storage", "activeTab"],
+    "background": {
+        "scripts": ["src/state.js"],
+        "persistent": true
+    },
+    "content_scripts": [
+        {
+            "matches": ["*://*/**/*"],
+            "js": ["src/scan.js", "src/plugin.js"]
+        }
+    ],
+    "page_action": {
+        "default_title": "Toggle available in-development features",
+        "default_popup": "src/index.html"
+    }
+}
