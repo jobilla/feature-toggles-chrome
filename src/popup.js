@@ -2,7 +2,12 @@ const container = document.getElementById('container');
 
 function render() {
     chrome.storage.local.get(['features'], function (result) {
-        const features = result.features;
+        let features;
+        if (result.hasOwnProperty('features')) {
+            features = result.features;
+        } else {
+            return;
+        }
 
         for (const feature of Object.keys(features)) {
             container.innerHTML = '';
