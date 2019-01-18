@@ -3,7 +3,7 @@
     "version": "1.1",
     "description": "Toggle application feature toggles",
     "manifest_version": 2,
-    "permissions": ["activeTab","declarativeContent","storage"],
+    "permissions": ["activeTab","storage"],
     "background": {
         "scripts": ["src/state.js"],
         "persistent": true
