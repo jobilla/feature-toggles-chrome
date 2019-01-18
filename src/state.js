@@ -6,13 +6,14 @@ function renderFeatures(tabId) {
     } else {
         chrome.storage.local.set({ features: null });
     }
-
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     switch (request.event) {
         case 'usesFeatureToggle':
-            tabs.set(sender.tab.id, {});
+            if (!tabs.has(sender.tab.id)) {
+                tabs.set(sender.tab.id, {});
+            }
             chrome.pageAction.show(sender.tab.id);
             if (sender.tab.active) {
                 renderFeatures(sender.tab.id);
@@ -22,9 +23,14 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         case 'featureDiscovery':
             tabs.set(sender.tab.id, request.features);
             renderFeatures(sender.tab.id);
+            break;
     }
 });
 
 chrome.tabs.onActivated.addListener(function (tab) {
-    renderFeatures(tab);
+    if (tab && tab.hasOwnProperty('tabId')) {
+        renderFeatures(tab.tabId);
+    } else {
+        renderFeatures(tab);
+    }
 });
