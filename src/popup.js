@@ -12,8 +12,8 @@ function render() {
         if (features) {
             container.innerHTML = '';
             for (const feature of Object.keys(features)) {
-                let wrapper = document.createElement('div');
-                let el = document.createElement('input');
+                const wrapper = document.createElement('div');
+                const el = document.createElement('input');
                 el.setAttribute('type', 'checkbox');
                 el.setAttribute('id', feature);
                 if (features[feature].enabled) {
@@ -26,15 +26,15 @@ function render() {
                     });
                 });
 
-                let label = document.createElement('label');
+                const label = document.createElement('label');
                 label.setAttribute('for', feature);
                 label.setAttribute('class', 'switch');
 
-                let toggleText = document.createElement('div');
+                const toggleText = document.createElement('div');
                 toggleText.innerText = features[feature].name;
                 toggleText.setAttribute('class', 'switchText');
 
-                let span = document.createElement('span');
+                const span = document.createElement('span');
                 span.setAttribute('class', 'slider round');
 
                 label.appendChild(el);
