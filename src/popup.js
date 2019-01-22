@@ -9,27 +9,43 @@ function render() {
             return;
         }
 
-        for (const feature of Object.keys(features)) {
+        if (features) {
             container.innerHTML = '';
-            const wrapper = document.createElement('div');
-            const el = document.createElement('input');
-            el.setAttribute('type', 'checkbox');
-            el.setAttribute('id', feature);
-            el.setAttribute('checked', `${features[feature].enabled}`);
-            el.addEventListener('change', function (event) {
-                features[event.target.id].enabled = event.target.checked;
-
-                chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-                    chrome.tabs.sendMessage(tabs[0].id, {event: 'featureToggled', 'feature': event.target.id, value: features[event.target.id] });
+            for (const feature of Object.keys(features)) {
+                const wrapper = document.createElement('div');
+                const el = document.createElement('input');
+                el.setAttribute('type', 'checkbox');
+                el.setAttribute('id', feature);
+                if (features[feature].enabled) {
+                    el.setAttribute('checked', features[feature].enabled);
+                }
+                el.addEventListener('change', function (event) {
+                    features[event.target.id].enabled = event.target.checked;
+                    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+                        chrome.tabs.sendMessage(tabs[0].id, {event: 'featureToggled', 'feature': event.target.id, value: features[event.target.id] });
+                    });
                 });
-            });
-            const label = document.createElement('label');
-            label.setAttribute('for', feature);
-            label.innerText = features[feature].name;
-            wrapper.appendChild(el);
-            wrapper.appendChild(label);
 
-            container.appendChild(wrapper);
+                const label = document.createElement('label');
+                label.setAttribute('for', feature);
+                label.setAttribute('class', 'switch');
+
+                const toggleText = document.createElement('div');
+                toggleText.innerText = features[feature].name;
+                toggleText.setAttribute('class', 'switchText');
+
+                const span = document.createElement('span');
+                span.setAttribute('class', 'slider round');
+
+                label.appendChild(el);
+                label.appendChild(span);
+
+                wrapper.setAttribute('class', 'toggleContainer');
+                wrapper.appendChild(label);
+                wrapper.appendChild(toggleText);
+
+                container.appendChild(wrapper);
+            }
         }
     });
 }
