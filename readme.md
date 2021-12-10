@@ -5,7 +5,7 @@ This is the Chrome extension used for easier interaction with
 
 ## Installation
 
-Install the extension from the Chrome Web Store.
+Install the extension from [its Chrome Web Store page](https://chrome.google.com/webstore/detail/feature-toggles/ndgiogfhgafgeniiejaldbngipemjafj)s.
 
 ## Usage
 
