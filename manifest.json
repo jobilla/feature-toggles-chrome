@@ -14,7 +14,8 @@
         {
             "matches": [
                 "http://localhost:8080/*",
-                "https://*.jobilla.*/*"
+                "https://*.jobilla.com/*",
+                "https://*.jobilla.guru/*"
             ],
             "js": [
                 "src/plugin.js"
