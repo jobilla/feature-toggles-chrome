@@ -1,4 +1,4 @@
-tabs = new Map();
+const tabs = new Map();
 
 function renderFeatures(tabId) {
     if (tabs.has(tabId)) {
@@ -8,29 +8,30 @@ function renderFeatures(tabId) {
     }
 }
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     switch (request.event) {
-        case 'usesFeatureToggle':
+        case "usesFeatureToggle":
             if (!tabs.has(sender.tab.id)) {
                 tabs.set(sender.tab.id, {});
             }
-            chrome.pageAction.show(sender.tab.id);
             if (sender.tab.active) {
                 renderFeatures(sender.tab.id);
             }
             sendResponse(true);
             break;
-        case 'featureDiscovery':
+        case "featureDiscovery":
             tabs.set(sender.tab.id, request.features);
             renderFeatures(sender.tab.id);
             break;
     }
+    return true;
 });
 
-chrome.tabs.onActivated.addListener(function (tab) {
-    if (tab && tab.hasOwnProperty('tabId')) {
-        renderFeatures(tab.tabId);
-    } else {
-        renderFeatures(tab);
-    }
+chrome.action.onClicked.addListener((tab) => {
+    renderFeatures(tab.id);
+});
+
+chrome.tabs.onActivated.addListener((activeInfo) => {
+    const {tabId} = activeInfo;
+    renderFeatures(tabId);
 });
