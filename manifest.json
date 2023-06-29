@@ -1,14 +1,13 @@
 {
     "name": "Jobilla Feature Toggles",
-    "version": "1.3",
+    "version": "1.5",
     "description": "Toggle Jobilla in-development application feature toggles",
     "manifest_version": 3,
     "permissions": [
         "storage"
     ],
     "background": {
-        "service_worker": "src/background.js",
-        "type": "module"
+        "service_worker": "src/background.js"
     },
     "content_scripts": [
         {
@@ -19,7 +18,8 @@
             ],
             "js": [
                 "src/plugin.js"
-            ]
+            ],
+            "runAt": "document_start"
         }
     ],
     "action": {
